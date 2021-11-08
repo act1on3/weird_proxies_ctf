@@ -2,9 +2,13 @@ version: "3.9"
 services:
   reverse_apache:
     build: ./reverse_apache/
-    ports:
-      - "8081:80"
-  backend1:
-    build: ./backend1/
+  default_backend_apache:
+    build: ./default_backend_apache/
   backend_nginx:
     build: ./backend_nginx/
+  reverse_nginx:
+    build: ./reverse_nginx/
+    ports:
+      - "8082:8082"
+  gunicorn:
+    build: ./gunicorn/
